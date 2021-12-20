@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+
+<body>
+   <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-app.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-messaging.js"></script>
+   <script>
+
+      firebase.initializeApp({
+         messagingSenderId: '385170723500' // troque pelo seu sender id 
+      });
+      const messaging = firebase.messaging();
+      if ("serviceWorker" in navigator) {
+         navigator.serviceWorker
+            .register("./firebase-messaging-sw.js")
+            .then(function (registration) {
+               console.log("Registration successful, scope is:", registration.scope);
+               messaging.getToken({ vapidKey: '385170723500', serviceWorkerRegistration: registration })
+                  .then((currentToken) => {
+                     if (currentToken) {
+                        console.log('current token for client: ', currentToken);
+
+                        // Track the token -> client mapping, by sending to backend server
+                        // show on the UI that permission is secured
+                     } else {
+                        console.log('No registration token available. Request permission to generate one.');
+
+                        // shows on the UI that permission is required 
+                     }
+                  }).catch((err) => {
+                     console.log('An error occurred while retrieving token. ', err);
+                     // catch error while creating client token
+                  });
+            })
+            .catch(function (err) {
+               console.log("Service worker registration failed, error:", err);
+            });
+      }
+
+      // use other service worker
+      // navigator.serviceWorker
+      //   .register('/my-sw.js')
+      //   .then((registration) => {
+      //     firebase.messaging().useServiceWorker(registration);
+      //   });
+      // const messaging = firebase.messaging();
+
+      // messaging.requestPermission().then(() => {
+      //    messaging.getToken().then((token) => {
+      //       console.log('user token: ', token);
+      //    })
+      // })
+      // if ('serviceWorker' in navigator) {
+      //    navigator.serviceWorker.register('./sw.js')
+      //       .then((registeration) => {
+      //          console.log('sw is here');
+      //          registeration.onupdatefound = () => {
+      //             if (confirm('do you want to update?')) {
+      //                console.log('new update is available');
+      //                const newSw = registeration.installing
+
+      //                newSw.onstatechange = (state) => {
+      //                   console.log(`new State ${newSw.state}`);
+      //                }
+      //             }
+      //          }
+      //       })
+      // }
+   </script>
+</body>
+
+</html>
