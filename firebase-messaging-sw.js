@@ -12,7 +12,9 @@ firebase.initializeApp({
 //     firebase.messaging().useServiceWorker(registration);
 //   });
 const messaging = firebase.messaging();
-
-this.addEventListener('fetch', (e) => {
-    console.log(e);
-})
+/**
+ * service worker
+ */
+// this.addEventListener('fetch', (e) => {
+//     console.log(e);
+// })

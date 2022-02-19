@@ -6,15 +6,35 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Document</title>
+   <style>
+      body {
+         margin: 0;
+         color: white;
+         font-family: cursive;
+         background-color: #292828;
+      }
+
+      .main {
+         display: flex;
+         height: 100vh;
+         justify-content: center;
+         align-items: center;
+      }
+   </style>
 </head>
 
 <body>
+   <div class="main">
+      <h1>
+         firebase notification
+      </h1>
+   </div>
    <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-app.js"></script>
    <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-messaging.js"></script>
    <script>
-
+      const messagingSenderId = '385170723500'
       firebase.initializeApp({
-         messagingSenderId: '385170723500' // troque pelo seu sender id 
+         messagingSenderId: messagingSenderId
       });
       const messaging = firebase.messaging();
       if ("serviceWorker" in navigator) {
@@ -22,7 +42,7 @@
             .register("./firebase-messaging-sw.js")
             .then(function (registration) {
                console.log("Registration successful, scope is:", registration.scope);
-               messaging.getToken({ vapidKey: '385170723500', serviceWorkerRegistration: registration })
+               messaging.getToken({ vapidKey: messagingSenderId, serviceWorkerRegistration: registration })
                   .then((currentToken) => {
                      if (currentToken) {
                         console.log('current token for client: ', currentToken);
